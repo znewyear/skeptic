@@ -17,16 +17,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ├── make.md               ← 核心规范文档（持续维护，权威来源）
 ├── SOUL.md               ← 主 Agent 人格定义
 ├── USER.md               ← 用户画像
-├── skills/
-│   ├── approval.md       ← 批复角色（流程驱动模式）
-│   ├── reviewer.md       ← 内容审查角色
-│   ├── testing.md        ← 测试角色
-│   ├── doc-keeper.md     ← 文档维护角色
-│   └── memory.md         ← 记忆管理
-├── hooks/                ← 工作流生命周期钩子（结构预留）
-├── plugins/              ← MCP 工具与扩展配置（结构预留）
+├── .claude-plugin/       ← 插件元数据（plugin.json + marketplace.json）
+├── skills/               ← 角色技能定义（SKILL.md 格式）
+│   ├── using-skeptics/   ─┐
+│   ├── workflow/          │
+│   ├── approval/          │
+│   ├── reviewer/          ├── 每个子目录一个 SKILL.md
+│   ├── tester/            │
+│   ├── doc-keeper/        │
+│   ├── memory/            │
+│   ├── tdd/              ─┘
+│   └── init/             ← 项目初始化
+├── prompts/              ← Subagent 调度模板
+│   ├── implementer.md    ← Worker Subagent 指令
+│   └── tester-agent.md   ← Tester Subagent 指令
+├── hooks/                ← 生命周期钩子（SessionStart 自动注入）
+├── plugins/              ← MCP 工具与扩展配置
 ├── memory/               ← 持久知识与活动日志
-└── project/.project/     ← 项目文档模板集
+└── project/.project/     ← 项目文档模板集（含 knowledge/ 图谱）
 ```
 
 ## 角色体系
@@ -54,8 +62,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 场景 | 操作 |
 |------|------|
 | 启动完整工作流 | 加载 `agent.md` 或说"启动 agent 工作流" |
-| 批复角色审视 | 加载 `skills/approval.md` |
-| 审查代码质量 | 加载 `skills/reviewer.md` |
-| 执行测试 | 加载 `skills/testing.md` |
-| 更新文档 | 加载 `skills/doc-keeper.md` |
+| 加载批复角色 | `/skill skeptics:approval` |
+| 审查代码质量 | `/skill skeptics:reviewer` |
+| 执行测试 | `/skill skeptics:tester` |
+| 更新文档 | `/skill skeptics:doc-keeper` |
+| 记忆管理 | `/skill skeptics:memory` |
+| 项目初始化 | `/skill skeptics:init` |
 | 查阅完整规范 | 读 `make.md`（持续维护的权威来源） |

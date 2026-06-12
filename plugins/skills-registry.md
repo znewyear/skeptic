@@ -8,27 +8,44 @@ type: reference
 
 > 将技能文件映射到角色和触发场景。主 Agent 据此决定何时加载哪个 skill。
 
-## 技能清单
+## 插件名空间方式（推荐）
 
-| 技能文件 | 对应角色 | 触发场景 | 加载方式 |
-|---------|---------|---------|---------|
-| `skills/approval.md` | 批复角色 | 需求讨论、任务规划、实施验收 | 主 Agent 调度时加载 |
-| `skills/reviewer.md` | 内容审查角色 | 实施完成后验收 | 主 Agent 调度时加载 |
-| `skills/testing.md` | 测试角色 | 实施完成后验收 | 主 Agent 调度时加载 |
-| `skills/doc-keeper.md` | 文档维护角色 | 需求确认、任务确认、实施完成、总结阶段 | 主 Agent 调度时加载 |
-| `skills/memory.md` | 主 Agent | 会话初始化、流转判定 | 主 Agent 自加载 |
+skeptics 插件安装后，通过 `/skill skeptics:*` 调用：
+
+| 插件技能 | 对应角色 | 触发场景 |
+|---------|---------|---------|
+| `skeptics:workflow` | Leader | 启动四阶段工作流 |
+| `skeptics:approval` | 批复角色 | 需求讨论、任务规划、实施验收 |
+| `skeptics:reviewer` | 内容审查角色 | 实施完成后质量审查 |
+| `skeptics:tester` | 测试角色 | 实施完成后测试验证 |
+| `skeptics:doc-keeper` | 文档维护角色 | 需求确认、任务确认、实施完成、总结 |
+| `skeptics:memory` | Leader | 会话初始化、知识图谱管理 |
+| `skeptics:tdd` | Worker | 实施阶段 TDD 方法论指导 |
+| `skeptics:init` | Leader | 首次项目初始化 |
+
+## 直接路径方式（向后兼容）
+
+| 技能文件 | 对应角色 | 触发场景 |
+|---------|---------|---------|
+| `skills/approval/SKILL.md` | 批复角色 | 需求讨论、任务规划、实施验收 |
+| `skills/reviewer/SKILL.md` | 内容审查角色 | 实施完成后审查 |
+| `skills/tester/SKILL.md` | 测试角色 | 实施完成后测试 |
+| `skills/doc-keeper/SKILL.md` | 文档维护角色 | 各阶段文档更新 |
+| `skills/memory/SKILL.md` | Leader | 记忆管理 |
+| `skills/tdd/SKILL.md` | Worker | TDD 实施方法论 |
+| `skills/workflow/SKILL.md` | Leader | 工作流定义 |
+| `skills/init/SKILL.md` | Leader | 项目初始化 |
+| `skills/using-skeptics/SKILL.md` | —（自动注入） | SessionStart |
 
 ## 注册规范
 
-新增技能文件时，在此索引中添加对应条目。技能文件的 frontmatter 必须包含：
+新增技能时，在对应 `skills/<name>/` 目录下创建 `SKILL.md`，frontmatter 必须包含：
 
 ```yaml
 ---
 name: 技能名称
 description: 一句话描述
-type: rigid | flexible
 ---
 ```
 
-- `rigid`：强制执行，不自由裁量（如批复/审查/测试）
-- `flexible`：可调节，适配上下文（如记忆管理）
+同时在此索引中添加对应条目。

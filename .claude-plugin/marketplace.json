@@ -1,0 +1,15 @@
+{
+  "name": "skeptics-dev",
+  "description": "Development marketplace for skeptics workflow plugin",
+  "plugins": [
+    {
+      "name": "skeptics",
+      "description": "多 Agent 协作工作流体系——批复对抗驱动，7角色+4阶段+三重Loop验证",
+      "version": "0.1.0",
+      "source": "./",
+      "author": {
+        "name": "NewYear"
+      }
+    }
+  ]
+}
