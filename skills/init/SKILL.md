@@ -1,6 +1,6 @@
 ---
 name: init
-description: 项目初始化——CLAUDE.md 追加 + .project/ 脚手架 + memory/ + knowledge/ 目录创建。仅首次使用 skeptics 时执行
+description: 项目初始化——CLAUDE.md 追加 + .skeptics/ 运行时目录脚手架。仅首次使用 skeptics 时执行
 ---
 
 # 项目初始化
@@ -10,7 +10,7 @@ description: 项目初始化——CLAUDE.md 追加 + .project/ 脚手架 + memor
 ## 执行流程
 
 ```
-检查 .claude-plugin/plugin.json → 存在则跳过
+检查 .skeptics/ 目录 → 存在则跳过
   │
   ▼
 步骤1: CLAUDE.md 追加（不覆盖）
@@ -19,17 +19,16 @@ description: 项目初始化——CLAUDE.md 追加 + .project/ 脚手架 + memor
   有 → 跳过
   │
   ▼
-步骤2: 创建 .project/ 目录结构
+步骤2: 创建 .skeptics/ 目录结构（docs/ + memory/ + knowledge/）
   │
   ▼
-步骤3: 创建 memory/ + knowledge/ 目录
-  │
-  ▼
-步骤4: 写入初始知识图谱文件
+步骤3: 写入初始空文档和知识图谱文件
   │
   ▼
 完成
 ```
+
+> **注意**：`.skeptics/` 是使用方项目根目录下的运行时目录，存放 skeptics 工作流产出的全部文档、日志和知识图谱。插件源码不受影响。
 
 ## 步骤详情
 
@@ -52,49 +51,48 @@ description: 项目初始化——CLAUDE.md 追加 + .project/ 脚手架 + memor
 | 更新文档 | `/skill skeptics:doc-keeper` |
 | 记忆管理 | `/skill skeptics:memory` |
 
-### 工作流文件
+### 运行时文件
+
+运行时文件统一存放在项目根目录的 `.skeptics/` 中：
 
 ```
-skills/               ← 角色技能定义（SKILL.md 格式）
-├── approval/         ← 批复角色
-├── reviewer/         ← 内容审查角色
-├── tester/           ← 测试角色
-├── doc-keeper/       ← 文档维护角色
-├── workflow/         ← 工作流定义
-├── memory/           ← 记忆管理
-├── tdd/              ← 测试驱动开发
-├── init/             ← 项目初始化
-└── using-skeptics/   ← 入口启动
-prompts/              ← Subagent 调度模板
-hooks/                ← 生命周期钩子
-.claude-plugin/       ← 插件元数据
+.skeptics/            ← 运行时文件（可提交到 git 以持久化知识）
+├── docs/             ← 四类文档（DocKeeper 维护）
+│   ├── requirement.md
+│   ├── progress.md
+│   ├── task.md
+│   └── learned.md
+├── memory/           ← 活动日志
+│   └── JOURNAL.jsonl
+└── knowledge/        ← 六论知识图谱
+    ├── graph.json
+    ├── schema.json
+    ├── index.json
+    └── archive.json
 ```
 ```
 
-### 步骤2: 创建 .project/ 目录结构
+### 步骤2: 创建 .skeptics/ 目录结构
 
 ```
-.project/
-├── requirement.md    ← 需求文档（按 doc-keeper 模板）
-├── progress.md       ← 进度文档（按 doc-keeper 模板）
-├── task.md           ← 任务文档（按 doc-keeper 模板）
-└── learned.md        ← 实施经验文档（按 doc-keeper 模板）
+.skeptics/
+├── docs/             ← 四类文档（空壳）
+│   ├── requirement.md
+│   ├── progress.md
+│   ├── task.md
+│   └── learned.md
+├── memory/           ← 活动日志
+│   └── (空，运行后产生 JOURNAL.jsonl)
+└── knowledge/        ← 六论知识图谱
+    ├── schema.json   ← 六论定义（见步骤3）
+    ├── graph.json    ← 主图谱（空数组 []）
+    ├── index.json    ← 查询索引（空对象 {}）
+    └── archive.json  ← 归档节点（空数组 []）
 ```
 
-四个文件全部使用 `skills/doc-keeper/SKILL.md` 中的对应模板创建空壳。
+四个文档文件全部使用 `skills/doc-keeper/SKILL.md` 中的对应模板创建空壳。
 
-### 步骤3: 创建 knowledge/ 目录
-
-```
-.project/
-└── knowledge/
-    ├── schema.json    ← 六论 schema 定义
-    ├── graph.json     ← 主图谱（空）
-    ├── index.json     ← 查询索引（空）
-    └── archive.json   ← 归档节点（空）
-```
-
-### 步骤4: 写入初始 schema.json
+### 步骤3: 写入初始 schema.json
 
 ```json
 {
@@ -214,15 +212,15 @@ hooks/                ← 生命周期钩子
 
 ## 幂等性
 
-- 检测到 `.claude-plugin/plugin.json` 已存在 → 跳过全部步骤
+- 检测到 `.skeptics/` 目录已存在 → 跳过全部步骤
 - 检测到 CLAUDE.md 中已有 `<!-- skeptics-init -->` → 跳过步骤1
-- 检测到 `.project/requirement.md` 已存在 → 跳过步骤2 对应文件
-- 检测到 `.project/knowledge/schema.json` 已存在 → 跳过步骤4 对应文件
+- 检测到 `.skeptics/docs/requirement.md` 已存在 → 跳过步骤2 对应文件
+- 检测到 `.skeptics/knowledge/schema.json` 已存在 → 跳过步骤3 对应文件
 
 ## 验证清单
 
 - [ ] CLAUDE.md 末尾有 `<!-- skeptics-init -->` 标记
-- [ ] `.project/` 下四个文档文件存在
-- [ ] `.project/knowledge/` 下四个 JSON 文件存在
+- [ ] `.skeptics/docs/` 下四个文档文件存在
+- [ ] `.skeptics/knowledge/` 下四个 JSON 文件存在
 - [ ] `schema.json` 包含全部 6 论 18 种节点类型
 - [ ] `schema.json` 包含全部 15 种关系类型

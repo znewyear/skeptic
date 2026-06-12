@@ -125,7 +125,21 @@ skeptics/
 ├── make.md                   ← 核心规范文档（权威来源）
 ├── SOUL.md                   ← Leader 人格定义
 ├── USER.md                   ← 用户画像
-└── CLAUDE.md                 ← 项目指南
+├── CLAUDE.md                 ← 项目指南
+│
+└── .skeptics/                ← 运行时文件（使用方项目根目录，可选提交到 git）
+    ├── docs/                 ← 四类文档（DocKeeper 维护）
+    │   ├── requirement.md
+    │   ├── progress.md
+    │   ├── task.md
+    │   └── learned.md
+    ├── memory/               ← 活动日志
+    │   └── JOURNAL.jsonl
+    └── knowledge/            ← 六论知识图谱
+        ├── graph.json
+        ├── schema.json
+        ├── index.json
+        └── archive.json
 ```
 
 ---

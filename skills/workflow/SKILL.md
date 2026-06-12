@@ -18,11 +18,11 @@ description: 四阶段工作流完整定义——需求讨论→任务规划→�
 ## 全局规则（第一阶段之前执行检查）
 
 启动工作流前，确认以下条件：
-- □ 项目已初始化 skeptics（有 .project/ 目录或 CLAUDE.md 有 skeptics 段落）
-- □ 已读取 requirement.md 获取历史需求（如存在）
-- □ 已读取 progress.md 获取当前进度（如存在）
-- □ 已读取 learned.md "反复出现的问题"区域（如存在）
-- □ 已读取 FACT.md 获取关键事实（如存在）
+- □ 项目已初始化 skeptics（有 `.skeptics/` 目录或 CLAUDE.md 有 skeptics 段落）
+- □ 已读取 `.skeptics/docs/requirement.md` 获取历史需求（如存在）
+- □ 已读取 `.skeptics/docs/progress.md` 获取当前进度（如存在）
+- □ 已读取 `.skeptics/docs/learned.md` "反复出现的问题"区域（如存在）
+- □ 已读取 `.skeptics/knowledge/index.json` 获取关键知识（如存在）
 
 ---
 
@@ -63,7 +63,7 @@ Leader 分析需求 → 产出需求理解文档
 |------|--------|------|------|------|
 | 1.1 | Leader | 用户需求文本 | 提取关键词和功能点，形成结构化理解 | 需求理解文档 |
 | 1.2 | Approval | 需求理解文档 + 用户原文 | 执行6项检查清单 | 批复报告 |
-| 1.3 | DocKeeper | 确认的需求 | 按模板写入 requirement.md | 更新后的 requirement.md |
+| 1.3 | DocKeeper | 确认的需求 | 按模板写入 `.skeptics/docs/requirement.md` | 更新后的 requirement.md |
 | 1.4 | Leader | 确认的需求列表 | 向用户汇报确认结果 | 用户确认 |
 
 ### 回退条件
@@ -79,7 +79,7 @@ Leader 分析需求 → 产出需求理解文档
 
 ```
 确认的需求列表
-  │ 输入: requirement.md 中的所有需求
+  │ 输入: `.skeptics/docs/requirement.md` 中的所有需求
   ▼
 Leader 分解任务
   动作:
@@ -96,7 +96,7 @@ Leader 分解任务
 ┌─ 批复有 ❌ 项？ ──→ Leader 修正规划 ──→ 再调 Approval (loop)
 │ 通过
 ▼
-阶段确认 → 调度 DocKeeper 写 task.md + progress.md → 向用户汇报
+阶段确认 → 调度 DocKeeper 写 `.skeptics/docs/task.md` + `.skeptics/docs/progress.md` → 向用户汇报
 ```
 
 ### 任务描述模板
@@ -126,7 +126,7 @@ Leader 分解任务
 |------|--------|------|------|------|
 | 2.1 | Leader | 需求列表 | 拆分任务、标注信息、检查冲突、规划分组 | 任务规划文档 |
 | 2.2 | Approval | 任务规划文档 | 检查覆盖/依赖/粒度/冲突/难题/边界 | 批复报告 |
-| 2.3 | DocKeeper | 确认的任务规划 | 写 task.md + progress.md | 更新后的文档 |
+| 2.3 | DocKeeper | 确认的任务规划 | 写 `.skeptics/docs/task.md` + `.skeptics/docs/progress.md` | 更新后的文档 |
 | 2.4 | Leader | 任务列表 | 向用户汇报规划结果 | 用户确认 |
 
 ### 回退条件
@@ -259,13 +259,13 @@ Leader 汇总所有任务结果
   │  - 知识图谱更新（表格）
   ▼
 调度 DocKeeper 更新文档（按优先级）
-  1. task.md       → 标记每个任务的最终状态（解决/降级/未解决）
-  2. progress.md   → 更新进度百分比
-  3. learned.md    → 记录实施经验和验收问题
-  4. requirement.md → 标记需求状态为已完成
+  1. `.skeptics/docs/task.md`     → 标记每个任务的最终状态（解决/降级/未解决）
+  2. `.skeptics/docs/progress.md`   → 更新进度百分比
+  3. `.skeptics/docs/learned.md`    → 记录实施经验和验收问题
+  4. `.skeptics/docs/requirement.md` → 标记需求状态为已完成
   ▼
 调度 Memory Skill 更新知识图谱
-  1. 从 JOURNAL.jsonl 自动萃取新节点
+  1. 从 `.skeptics/memory/JOURNAL.jsonl` 自动萃取新节点
   2. 更新现有节点权重
   3. 发现跨论关联
   4. 执行生命周期检查（冻结/归档）
@@ -304,8 +304,10 @@ Leader 汇总所有任务结果
 ### 文档更新
 | 文档 | 更新内容 |
 |------|----------|
-| requirement.md | 需求A 标记为已完成 |
-| progress.md | 进度从 0% 更新为 60% |
-| task.md | T001 标记为 ✅ 结束 |
-| learned.md | 新增 1 条实施经验 |
+| `.skeptics/docs/requirement.md` | 需求A 标记为已完成 |
+| `.skeptics/docs/progress.md` | 进度从 0% 更新为 60% |
+| `.skeptics/docs/task.md` | T001 标记为 ✅ 结束 |
+| `.skeptics/docs/learned.md` | 新增 1 条实施经验 |
+| `.skeptics/memory/JOURNAL.jsonl` | 新增活动日志条目 |
+| `.skeptics/knowledge/graph.json` | 新增节点和关系 |
 ```

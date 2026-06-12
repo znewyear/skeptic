@@ -29,3 +29,7 @@ temp/
 # 会话导出
 chat.md
 caht.md
+
+# skeptics 运行时文件（使用方项目可选提交）
+# 若想持久化项目知识，移除下面这行即可
+.skeptics/

@@ -33,8 +33,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │   └── tester-agent.md   ← Tester Subagent 指令
 ├── hooks/                ← 生命周期钩子（SessionStart 自动注入）
 ├── plugins/              ← MCP 工具与扩展配置
-├── memory/               ← 持久知识与活动日志
-└── project/.project/     ← 项目文档模板集（含 knowledge/ 图谱）
 ```
 
 ## 角色体系
@@ -68,4 +66,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 更新文档 | `/skill skeptics:doc-keeper` |
 | 记忆管理 | `/skill skeptics:memory` |
 | 项目初始化 | `/skill skeptics:init` |
-| 查阅完整规范 | 读 `make.md`（持续维护的权威来源） |
+| ### 运行时文件
+
+skeptics 工作流运行时产生的文件集中存放在项目根目录的 `.skeptics/` 中：
+
+```
+.skeptics/            ← 运行时文件（可选提交到 git 以持久化知识）
+├── docs/             ← 四类文档（DocKeeper 维护）
+│   ├── requirement.md
+│   ├── progress.md
+│   ├── task.md
+│   └── learned.md
+├── memory/           ← 活动日志
+│   └── JOURNAL.jsonl
+└── knowledge/        ← 六论知识图谱
+    ├── graph.json
+    ├── schema.json
+    ├── index.json
+    └── archive.json
+```

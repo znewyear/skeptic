@@ -17,7 +17,7 @@ description: 会话启动时自动注入——激活 skeptics 多 Agent 协作�
 
 检查当前项目是否已初始化 skeptics：
 
-1. 是否存在 `.project/` 目录？
+1. 是否存在 `.skeptics/` 目录？
 2. `CLAUDE.md` 中是否包含 "skeptics" 段落？
 
 两个条件任一成立 → 激活 Leader 模式

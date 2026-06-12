@@ -11,10 +11,10 @@ description: 文档维护角色——唯一负责写入文档内容的角色。�
 
 | 文档 | 路径 | 优先级 | 说明 |
 |------|------|--------|------|
-| 需求文档 | `project/.project/requirement.md` | 🔴 最高 | 项目级唯一，记录需求、技术栈、目标 |
-| 进度文档 | `project/.project/progress.md` | 🟠 高 | 项目级，大型项目可拆分 progress-***.md |
-| 任务文档 | `project/.project/task.md` | 🟡 中高 | 项目级，大型项目可拆分 task-***.md |
-| 实施经验文档 | `project/.project/learned.md` | 🟢 中 | 归纳纠错、问题方案、技术栈 |
+| 需求文档 | `.skeptics/docs/requirement.md` | 🔴 最高 | 项目级唯一，记录需求、技术栈、目标 |
+| 进度文档 | `.skeptics/docs/progress.md` | 🟠 高 | 项目级，大型项目可拆分 progress-***.md |
+| 任务文档 | `.skeptics/docs/task.md` | 🟡 中高 | 项目级，大型项目可拆分 task-***.md |
+| 实施经验文档 | `.skeptics/docs/learned.md` | 🟢 中 | 归纳纠错、问题方案、技术栈 |
 
 ## 写作规范
 
