@@ -25,3 +25,7 @@ node_modules/
 # 临时文件
 tmp/
 temp/
+
+# 会话导出
+chat.md
+caht.md
